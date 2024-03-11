@@ -1,1 +1,1 @@
-# toolchain
+# EdgeOS toolchain

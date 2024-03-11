@@ -1,0 +1,41 @@
+name: Build
+
+on:
+  push:
+    branches: [ "main" ]
+    tags: [ "*" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-22.04
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Print the version number
+      run: make version
+
+    - name: Install dependencies
+      run: make prepare
+
+    - name: Build
+      run: make
+
+    - name: Store the tarbal artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: toolchain
+        path: output/rpi4-toolchain/images/aarch64-buildroot-linux-gnu_sdk-buildroot.tar.gz
+
+    - name: Create a GitHub release when tagged
+      if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: output/rpi4-toolchain/images/aarch64-buildroot-linux-gnu_sdk-buildroot.tar.gz
+        omitBody: true
