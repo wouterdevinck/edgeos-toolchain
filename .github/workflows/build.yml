@@ -31,11 +31,13 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: toolchain
-        path: output/rpi4-toolchain/images/aarch64-buildroot-linux-gnu_sdk-buildroot.tar.gz
+        path: |
+          output/rpi4-toolchain/images/aarch64-buildroot-linux-gnu_sdk-buildroot.tar.gz
+          output/pc-toolchain/images/x86_64-buildroot-linux-gnu_sdk-buildroot.tar.gz
 
     - name: Create a GitHub release when tagged
       if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
       uses: ncipollo/release-action@v1
       with:
-        artifacts: output/rpi4-toolchain/images/aarch64-buildroot-linux-gnu_sdk-buildroot.tar.gz
+        artifacts: output/rpi4-toolchain/images/aarch64-buildroot-linux-gnu_sdk-buildroot.tar.gz,output/pc-toolchain/images/x86_64-buildroot-linux-gnu_sdk-buildroot.tar.gz
         omitBody: true

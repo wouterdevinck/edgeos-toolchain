@@ -1,4 +1,4 @@
-all: build
+all: build-rpi4 build-pc
 
 .PHONY: version
 version:
@@ -8,13 +8,21 @@ version:
 prepare:
 	./build.sh prepare
 
-.PHONY: menuconfig
-menuconfig:
-	./build.sh menuconfig
+.PHONY: menuconfig-rpi4
+menuconfig-rpi4:
+	./build.sh menuconfig rpi4
 
-.PHONY: build
-build:
-	./build.sh build
+.PHONY: menuconfig-pc
+menuconfig-pc:
+	./build.sh menuconfig pc
+
+.PHONY: build-rpi4
+build-rpi4:
+	./build.sh build rpi4
+
+.PHONY: build-pc
+build-pc:
+	./build.sh build pc
 
 .PHONY: clean
 clean:
